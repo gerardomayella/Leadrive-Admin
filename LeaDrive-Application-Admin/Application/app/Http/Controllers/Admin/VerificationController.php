@@ -8,6 +8,9 @@ use App\Models\Kursus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CourseApproved;
+use App\Mail\CourseRejected;
 
 class VerificationController extends Controller
 {
@@ -90,6 +93,15 @@ class VerificationController extends Controller
             // Update status request
             $requestData->update(['status' => 'approved']);
             
+            // Kirim email notifikasi diterima
+            if ($requestData->email) {
+                try {
+                    Mail::to($requestData->email)->send(new CourseApproved($kursus));
+                } catch (\Exception $e) {
+                    \Log::error('Gagal mengirim email approval: ' . $e->getMessage());
+                }
+            }
+            
             DB::commit();
             
             \Log::info('Kursus created successfully', ['id_kursus' => $kursus->id_kursus]);
@@ -134,6 +146,15 @@ class VerificationController extends Controller
                 'status' => 'rejected',
                 // Bisa tambahkan kolom alasan_reject jika perlu
             ]);
+            
+            // Kirim email notifikasi ditolak
+            if ($requestData->email) {
+                try {
+                    Mail::to($requestData->email)->send(new CourseRejected($requestData, $request->alasan));
+                } catch (\Exception $e) {
+                    \Log::error('Gagal mengirim email rejection: ' . $e->getMessage());
+                }
+            }
             
             return redirect()->route('admin.verifikasi')
                 ->with('success', 'Request berhasil ditolak.');
