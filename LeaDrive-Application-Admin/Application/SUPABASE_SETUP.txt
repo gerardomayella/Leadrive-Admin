@@ -1,0 +1,118 @@
+===========================================
+CARA SETUP SUPABASE STORAGE
+===========================================
+
+MASALAH:
+Upload dokumen gagal karena SUPABASE_KEY belum di-set di file .env
+
+SOLUSI:
+
+1. BUKA SUPABASE DASHBOARD
+   - Login ke: https://supabase.com/dashboard
+   - Pilih project Anda
+
+2. DAPATKAN SUPABASE_KEY (Service Role Key)
+   - Klik "Settings" (ikon gear) di sidebar kiri
+   - Klik "API"
+   - Scroll ke bawah ke bagian "Project API keys"
+   - Copy "service_role" key (BUKAN anon key!)
+   - Key ini rahasia, jangan share ke publik!
+
+3. SETUP STORAGE BUCKETS
+   - Klik "Storage" di sidebar kiri
+   - Buat 2 buckets:
+     a. Bucket "kursus" (untuk dokumen kursus)
+        - Klik "New bucket"
+        - Name: kursus
+        - Public bucket: YES (centang)
+        - Klik "Create bucket"
+        
+     b. Bucket "instruktur" (untuk dokumen instruktur)
+        - Klik "New bucket"
+        - Name: instruktur
+        - Public bucket: YES (centang)
+        - Klik "Create bucket"
+
+4. BUAT FOLDER STRUKTUR DI BUCKET "kursus"
+   - Klik bucket "kursus"
+   - Buat folder:
+     * ktp
+     * izin
+     * dokumenlain
+     * fotokursus
+
+5. BUAT FOLDER STRUKTUR DI BUCKET "instruktur"
+   - Klik bucket "instruktur"
+   - Buat folder:
+     * sim
+     * fotoinstruktur
+     * sertifikat
+
+6. TAMBAHKAN KE FILE .env
+   Buka file .env dan tambahkan:
+   
+   SUPABASE_KEY=eyJhbGc....(paste service_role key di sini)
+   SUPABASE_STORAGE_URL=https://[PROJECT_ID].supabase.co/storage/v1
+   
+   Ganti [PROJECT_ID] dengan project ID Anda
+   Contoh: https://djgznqnnekcjoafbzfcr.supabase.co/storage/v1
+
+7. CLEAR CACHE
+   php artisan config:clear
+   php artisan cache:clear
+
+8. TEST UPLOAD
+   - Akses: http://localhost:8000/register
+   - Isi form sampai step 3
+   - Upload dokumen
+   - Jika berhasil, file akan tersimpan di Supabase Storage
+
+===========================================
+TROUBLESHOOTING
+===========================================
+
+Jika masih error:
+
+1. CEK LOG
+   - Buka: storage/logs/laravel.log
+   - Cari error message terbaru
+
+2. CEK KONFIGURASI
+   php artisan tinker
+   >>> config('supabase.key')
+   >>> config('supabase.storage_url')
+   
+   Pastikan kedua nilai tidak null
+
+3. CEK BUCKET PERMISSIONS
+   - Buka Supabase Dashboard > Storage
+   - Klik bucket "kursus"
+   - Klik "Policies"
+   - Pastikan ada policy untuk "INSERT" dan "SELECT"
+   - Jika tidak ada, buat policy baru:
+     * Policy name: Allow public uploads
+     * Target roles: public
+     * Policy definition: true
+     * Allowed operations: INSERT, SELECT
+
+4. CEK FILE SIZE
+   - Max file size: 5MB
+   - Jika file lebih besar, ubah di .env:
+     SUPABASE_MAX_FILE_SIZE=10485760  (untuk 10MB)
+
+===========================================
+ALTERNATIVE: GUNAKAN LOCAL STORAGE
+===========================================
+
+Jika tidak ingin menggunakan Supabase Storage,
+Anda bisa menggunakan local storage Laravel:
+
+1. Ubah RegistrationController.php
+   - Ganti SupabaseService dengan Storage::disk('public')
+   
+2. Jalankan:
+   php artisan storage:link
+
+3. File akan tersimpan di: storage/app/public/
+
+===========================================

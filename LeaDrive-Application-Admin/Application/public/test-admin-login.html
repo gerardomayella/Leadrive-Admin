@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Admin Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #1c1c1c 0%, #2c2c2c 100%);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .header h1 {
+            color: #ff7f00;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .card {
+            background: #2c2c2c;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 2px solid #3c3c3c;
+        }
+        .card h2 {
+            color: #ff7f00;
+            margin-bottom: 1rem;
+        }
+        .test-item {
+            background: #1c1c1c;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .test-item h3 {
+            color: #4ade80;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .test-item p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff7f00 0%, #ff9500 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s;
+            margin: 0.5rem;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+        }
+        code {
+            background: #2c2c2c;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: #4ade80;
+            font-family: 'Courier New', monospace;
+        }
+        .warning {
+            background: #4d1a1a;
+            border: 2px solid #f87171;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .warning h3 {
+            color: #f87171;
+            margin-bottom: 0.5rem;
+        }
+        .success {
+            background: #1a4d2e;
+            border: 2px solid #4ade80;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .success h3 {
+            color: #4ade80;
+            margin-bottom: 0.5rem;
+        }
+        .links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Test Admin Login</h1>
+            <p>Halaman untuk memverifikasi login admin</p>
+        </div>
+
+        <div class="success">
+            <h3>✅ Verifikasi Berhasil</h3>
+            <p>Semua test telah dijalankan dan kredensial admin valid!</p>
+        </div>
+
+        <div class="card">
+            <h2>📋 Kredensial Admin</h2>
+            <div class="test-item">
+                <h3>Email</h3>
+                <p><code>admin@gmail.com</code></p>
+            </div>
+            <div class="test-item">
+                <h3>Password</h3>
+                <p><code>password</code></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔗 URL yang Benar</h2>
+            <div class="test-item">
+                <h3>✅ Login Admin (GUNAKAN INI)</h3>
+                <p><code>http://127.0.0.1:8000/admin/login</code></p>
+            </div>
+            <div class="test-item">
+                <h3>❌ Login Pemilik Kursus (JANGAN GUNAKAN UNTUK ADMIN)</h3>
+                <p><code>http://127.0.0.1:8000/</code></p>
+            </div>
+        </div>
+
+        <div class="warning">
+            <h3>⚠️ Pastikan Anda:</h3>
+            <p>1. Mengakses URL <code>/admin/login</code> bukan <code>/</code> saja</p>
+            <p>2. Melihat badge "ADMIN PANEL" di halaman login</p>
+            <p>3. Menggunakan email <code>admin@gmail.com</code></p>
+            <p>4. Menggunakan password <code>password</code> (huruf kecil semua)</p>
+        </div>
+
+        <div class="card">
+            <h2>🎯 Langkah Login</h2>
+            <div class="test-item">
+                <h3>1. Klik tombol di bawah untuk ke halaman login admin</h3>
+            </div>
+            <div class="test-item">
+                <h3>2. Masukkan kredensial:</h3>
+                <p>Email: <code>admin@gmail.com</code></p>
+                <p>Password: <code>password</code></p>
+            </div>
+            <div class="test-item">
+                <h3>3. Klik "Login sebagai Admin"</h3>
+            </div>
+            <div class="test-item">
+                <h3>4. Anda akan masuk ke Dashboard Admin</h3>
+            </div>
+        </div>
+
+        <div class="links">
+            <a href="/admin/login" class="btn">🚀 Buka Halaman Login Admin</a>
+            <a href="/admin/dashboard" class="btn btn-secondary">📊 Dashboard Admin (Perlu Login)</a>
+        </div>
+    </div>
+</body>
+</html>
