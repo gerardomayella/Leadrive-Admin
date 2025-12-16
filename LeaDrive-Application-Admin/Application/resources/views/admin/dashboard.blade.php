@@ -13,12 +13,6 @@
         </div>
         <h3 class="text-dark-muted text-sm font-medium uppercase tracking-wider mb-2">Total Users</h3>
         <div class="text-3xl font-bold text-white mb-1">{{ \App\Models\User::count() }}</div>
-        <div class="flex items-center text-sm text-green-400">
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-            </svg>
-            <span>+12% this month</span>
-        </div>
     </div>
 
     <div class="bg-dark-card rounded-xl p-6 border border-dark-border relative overflow-hidden group hover:border-green-500/50 transition-colors">
@@ -31,12 +25,6 @@
         <div class="text-3xl font-bold text-white mb-1">
             Rp {{ number_format(\Illuminate\Support\Facades\DB::table('transactions')->where('status', 'success')->sum('amount'), 0, ',', '.') }}
         </div>
-        <div class="flex items-center text-sm text-green-400">
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-            </svg>
-            <span>+8.2% this month</span>
-        </div>
     </div>
 
     <div class="bg-dark-card rounded-xl p-6 border border-dark-border relative overflow-hidden group hover:border-blue-500/50 transition-colors">
@@ -48,9 +36,6 @@
         </div>
         <h3 class="text-dark-muted text-sm font-medium uppercase tracking-wider mb-2">Transactions</h3>
         <div class="text-3xl font-bold text-white mb-1">{{ \Illuminate\Support\Facades\DB::table('transactions')->count() }}</div>
-        <div class="flex items-center text-sm text-blue-400">
-            <span>Total processed</span>
-        </div>
     </div>
 
     <div class="bg-dark-card rounded-xl p-6 border border-dark-border relative overflow-hidden group hover:border-yellow-500/50 transition-colors">
@@ -61,9 +46,6 @@
         </div>
         <h3 class="text-dark-muted text-sm font-medium uppercase tracking-wider mb-2">Pending</h3>
         <div class="text-3xl font-bold text-white mb-1">{{ \Illuminate\Support\Facades\DB::table('transactions')->where('status', 'pending')->count() }}</div>
-        <div class="flex items-center text-sm text-yellow-400">
-            <span>Needs attention</span>
-        </div>
     </div>
 </div>
 

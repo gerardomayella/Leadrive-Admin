@@ -548,15 +548,90 @@
                 </div>
             </div>
 
+            <!-- Statistik ringkas -->
+            <div class="stats-cards" style="display:flex;gap:1rem;margin-bottom:1rem;">
+                <div class="card">
+                    <h3>Total Users</h3>
+                    <p>{{ number_format($stats['total_users'] ?? 0) }}</p>
+                </div>
+                <div class="card">
+                    <h3>Verified Users</h3>
+                    <p>{{ number_format($stats['users_verified'] ?? 0) }}</p>
+                </div>
+                <div class="card">
+                    <h3>Total Instruktur</h3>
+                    <p>{{ number_format($stats['total_instruktur'] ?? 0) }}</p>
+                </div>
+                <div class="card">
+                    <h3>Total Revenue</h3>
+                    <p>Rp {{ number_format($stats['total_revenue'] ?? 0, 0, ',', '.') }}</p>
+                </div>
+            </div>
+
+            <!-- Users terbaru -->
+            <section style="margin-bottom:1rem;">
+                <h2>Latest Users</h2>
+                @if(!empty($latestUsers))
+                    <ul>
+                        @foreach($latestUsers as $u)
+                            @php
+                                $name = is_object($u) ? ($u->name ?? $u->email ?? '') : ($u['name'] ?? $u['email'] ?? '');
+                                $email = is_object($u) ? ($u->email ?? '') : ($u['email'] ?? '');
+                                $verified = is_object($u) ? ($u->verified ?? false) : ($u['verified'] ?? false);
+                            @endphp
+                            <li>{{ $name }} ({{ $email }}) @if($verified) <strong style="color:green">verified</strong> @endif</li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p>Tidak ada data user terbaru.</p>
+                @endif
+            </section>
+
+            <!-- Transaksi terakhir -->
+            <section>
+                <h2>Recent Transactions</h2>
+                @if(!empty($transactions))
+                    <table border="1" cellpadding="6" cellspacing="0" style="width:100%;border-collapse:collapse;">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Amount</th>
+                                <th>Currency</th>
+                                <th>Status</th>
+                                <th>Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($transactions as $t)
+                                @php
+                                    $id = $t['id'] ?? ($t['raw']['id'] ?? ($t['raw']['transaction_id'] ?? ''));
+                                    $amount = $t['amount'] ?? ($t['raw']['amount'] ?? 0);
+                                    $currency = $t['currency'] ?? ($t['raw']['currency'] ?? '');
+                                    $status = $t['status'] ?? ($t['raw']['status'] ?? '');
+                                    $created = $t['created_at'] ?? ($t['raw']['created_at'] ?? ($t['raw']['created'] ?? ''));
+                                @endphp
+                                <tr>
+                                    <td>{{ $id }}</td>
+                                    <td>Rp {{ number_format((float)$amount, 0, ',', '.') }}</td>
+                                    <td>{{ $currency }}</td>
+                                    <td>{{ $status }}</td>
+                                    <td>{{ $created }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p>Tidak ada transaksi.</p>
+                @endif
+            </section>
+
             <!-- Informasi Kursus -->
             <div class="section">
                 <div class="section-header">
                     <div class="section-title">
                         📋 Informasi Kursus
                     </div>
-                    <a href="#" class="btn btn-primary">
-                        ✏️ Edit Profil
-                    </a>
+                    {{-- Edit button removed --}}
                 </div>
                 <div class="section-content">
                     <div class="info-grid">
@@ -586,9 +661,7 @@
                     <div class="section-title">
                         👨‍🏫 Instruktur Terbaru
                     </div>
-                    <a href="#" class="btn btn-primary">
-                        ➕ Tambah Instruktur
-                    </a>
+                    {{-- Add instructor button removed --}}
                 </div>
                 <div class="section-content">
                     @if($latestInstrukturs->count() > 0)
@@ -633,11 +706,21 @@
                             <div class="empty-state-icon">👤</div>
                             <h3>Belum Ada Instruktur</h3>
                             <p>Tambahkan instruktur pertama Anda untuk memulai mengelola kursus</p>
-                            <a href="#" class="btn btn-primary">➕ Tambah Instruktur Pertama</a>
                         </div>
                     @endif
                 </div>
             </div>
+
+            {{-- Debug Supabase (visible only when APP_DEBUG=true) --}}
+            @if(config('app.debug'))
+                <section style="margin-top:1rem;background:#f8f9fa;padding:1rem;border:1px solid #e1e1e1;">
+                    <h3>Supabase debug</h3>
+                    <pre style="white-space:pre-wrap;word-wrap:break-word;">{{ json_encode($supabase_debug ?? [], JSON_PRETTY_PRINT) }}</pre>
+
+                    <h3>Supabase status probe</h3>
+                    <pre style="white-space:pre-wrap;word-wrap:break-word;">{{ json_encode($supabase_status ?? [], JSON_PRETTY_PRINT) }}</pre>
+                </section>
+            @endif
         </div>
     </main>
 </body>

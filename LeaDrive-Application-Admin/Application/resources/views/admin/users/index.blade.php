@@ -4,14 +4,8 @@
 
 @section('content')
 <div class="bg-dark-card rounded-xl border border-dark-border overflow-hidden">
-    <div class="p-6 border-b border-dark-border flex justify-between items-center">
+    <div class="p-6 border-b border-dark-border">
         <h3 class="text-lg font-semibold text-white">All Users</h3>
-        <a href="{{ route('admin.users.create') }}" class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-            </svg>
-            Add User
-        </a>
     </div>
     
     <div class="overflow-x-auto">
@@ -22,7 +16,6 @@
                     <th class="px-6 py-4 font-semibold">Role</th>
                     <th class="px-6 py-4 font-semibold">Status</th>
                     <th class="px-6 py-4 font-semibold">Joined Date</th>
-                    <th class="px-6 py-4 font-semibold text-right">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-dark-border">
@@ -57,14 +50,6 @@
                     </td>
                     <td class="px-6 py-4 text-sm text-dark-muted">
                         {{ $user->created_at ? $user->created_at->format('d M Y') : 'N/A' }}
-                    </td>
-                    <td class="px-6 py-4 text-right space-x-2">
-                        <a href="{{ route('admin.users.edit', $user->id) }}" class="text-blue-400 hover:text-blue-300 font-medium text-sm transition-colors">Edit</a>
-                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-400 hover:text-red-300 font-medium text-sm transition-colors">Delete</button>
-                        </form>
                     </td>
                 </tr>
                 @endforeach
